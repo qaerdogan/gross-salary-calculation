@@ -1,10 +1,10 @@
 import React from "react";
 
-const SalaryForm = () => {
+const SalaryForm = props => {
   return (
     <div className="m-2">
       <input />
-      <button>Hesapla</button>
+      <button onClick={props.onClickFunction}> Hesapla</button>
     </div>
   );
 };
