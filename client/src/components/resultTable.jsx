@@ -17,8 +17,8 @@ const ResultTable = props => {
   return (
     <>
       <p>Burada table olacak</p>
-      <p>{props.tableData}</p>
-      <ReactTable columns={columns} data={testResult}></ReactTable>
+      <p>{props.payrollTable}</p>
+      <ReactTable columns={columns} data={props.tableData}></ReactTable>
     </>
   );
 };
