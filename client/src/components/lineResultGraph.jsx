@@ -16,6 +16,7 @@ const months = [
 ];
 
 const ResultGraphLine = props => {
+  console.log("lineData", props.lineData);
   const data = {
     labels: months,
     datasets: [
@@ -26,12 +27,12 @@ const ResultGraphLine = props => {
         data: props.lineData,
         borderWidth: 0,
         backgroundColor: [
-          "rgba(255, 99, 131, 0.8)",
-          "rgba(54, 162, 233, 0.8)",
-          "rgba(255, 205, 86, 0.2)",
-          "rgba(73, 192, 192, 0.2)",
-          "rgba(153, 101, 255, 0.2)",
-          "rgba(255, 159, 62, 0.2)"
+          "rgba(255, 99, 131, 0.8)"
+          // "rgba(54, 162, 233, 0.8)",
+          // "rgba(255, 205, 86, 0.2)",
+          // "rgba(73, 192, 192, 0.2)",
+          // "rgba(153, 101, 255, 0.2)",
+          // "rgba(255, 159, 62, 0.2)"
         ]
       }
     ]
@@ -40,8 +41,8 @@ const ResultGraphLine = props => {
     <>
       <Line
         data={data}
-        width={100}
-        height={50}
+        width="300"
+        height="100"
         options={{
           maintainAspectRatio: false,
           title: { display: true, text: "Month - Gross Salary", fontSize: 25 },

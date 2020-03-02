@@ -25,6 +25,8 @@ const columns = [
 ];
 
 const ResultTable = props => {
+  const filterCaseInsensitive = ({ id, value }, row) =>
+    row[id] ? row[id].toLowerCase().includes(value.toLowerCase()) : true;
   return (
     <>
       <p>{props.payrollTable}</p>
@@ -33,6 +35,7 @@ const ResultTable = props => {
         data={props.tableData}
         showPagination={false}
         pageSize={12}
+        defaultFilterMethod={filterCaseInsensitive}
       ></ReactTable>
       <div>
         <strong>CITB:Cumulative Income Tax Base </strong>

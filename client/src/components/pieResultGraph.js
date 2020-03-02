@@ -26,8 +26,8 @@ const ResultGraphPie = props => {
     <>
       <Pie
         data={data}
-        width={100}
-        height={50}
+        width="50"
+        height="50"
         options={{
           maintainAspectRatio: false,
           title: { display: true, text: "Net Salary / Tax", fontSize: 25 },

@@ -57,7 +57,7 @@ const CalculateGrossSalaryFromNetto = reqNetSalary => {
     }
   ];
 
-  const netHesapla = (gross, prevKgvm, ay) => {
+  const netSalaryCalculate = (gross, prevKgvm, ay) => {
     let sgkIsci, issizlik;
     if (gross > 22000) {
       sgkIsci = taxSteps[0].taxEnd * 0.14;
@@ -74,9 +74,7 @@ const CalculateGrossSalaryFromNetto = reqNetSalary => {
     let gv = getTaxCalculated(prevKgvm, gvm);
 
     netSalary = gross - (sgkIsci + issizlik + damgaVerg + gv);
-    if (netSalary == 20000) {
-      let foo;
-    }
+
     return {
       ay,
       gross,
@@ -116,10 +114,10 @@ const CalculateGrossSalaryFromNetto = reqNetSalary => {
   }
 
   var netSalaries = [];
-  var netSalaryPredictInterval = { alt: 0, ust: 0 };
+  var netSalaryPredictInterval = { min: 0, max: 0 };
   var counter = 0;
   // iş bitiminde temizle
-  const brutHesapla = (netSalary, PreviousKgvm) => {
+  const grossSalaryCalculate = (netSalary, PreviousKgvm) => {
     if (counter === 0) {
     }
     counter++;
@@ -129,37 +127,36 @@ const CalculateGrossSalaryFromNetto = reqNetSalary => {
     const interval = netSalary - netSalary * 0.5;
 
     if (counter === 1) {
-      netSalaryPredictInterval.alt = interval;
-      netSalaryPredictInterval.ust = netSalary;
+      netSalaryPredictInterval.min = interval;
+      netSalaryPredictInterval.max = netSalary;
     }
 
     grossSalary = netSalary * 2;
-    const predictNetSalary = netHesapla(grossSalary, PreviousKgvm).netSalary;
+    const predictNetSalary = netSalaryCalculate(grossSalary, PreviousKgvm)
+      .netSalary;
     if (predictNetSalary > netSalaries[0]) {
       if (counter > 1) {
-        netSalaryPredictInterval.ust = netSalaries[netSalaries.length - 1];
+        netSalaryPredictInterval.max = netSalaries[netSalaries.length - 1];
       }
 
       netSalary = getRandomArbitrary(
-        netSalaryPredictInterval.alt,
-        netSalaryPredictInterval.ust
+        netSalaryPredictInterval.min,
+        netSalaryPredictInterval.max
       );
 
-      console.log("interval buyuk", netSalaryPredictInterval);
-      return brutHesapla(netSalary, PreviousKgvm);
+      return grossSalaryCalculate(netSalary, PreviousKgvm);
     } else if (predictNetSalary < netSalaries[0]) {
-      netSalaryPredictInterval.alt = netSalaries[netSalaries.length - 1];
+      netSalaryPredictInterval.min = netSalaries[netSalaries.length - 1];
       netSalary = netSalary = getRandomArbitrary(
-        netSalaryPredictInterval.alt,
-        netSalaryPredictInterval.ust
+        netSalaryPredictInterval.min,
+        netSalaryPredictInterval.max
       );
-      console.log("interval kucuk", netSalaryPredictInterval);
-      return brutHesapla(netSalary, PreviousKgvm);
+
+      return grossSalaryCalculate(netSalary, PreviousKgvm);
     }
     netSalaries = [];
     counter = 0;
-    netSalaryPredictInterval = { alt: 0, ust: 0 };
-    console.log("----Bulundu---");
+    netSalaryPredictInterval = { min: 0, max: 0 };
     return grossSalary;
   };
 
@@ -169,12 +166,11 @@ const CalculateGrossSalaryFromNetto = reqNetSalary => {
     if (sheetnew.length > 0) {
       kgvm = sheetnew[sheetnew.length - 1].kgvm;
     }
-    let brutto = brutHesapla(reqNetSalary, kgvm);
-    let nettoResult = netHesapla(brutto, kgvm, item);
+    let brutto = grossSalaryCalculate(reqNetSalary, kgvm);
+    let nettoResult = netSalaryCalculate(brutto, kgvm, item);
     sheetnew.push(Object.assign({}, nettoResult));
   });
 
-  console.log(sheetnew);
   return sheetnew;
 };
 module.exports = {
