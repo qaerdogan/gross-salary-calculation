@@ -77,7 +77,17 @@ const CalculateGrossSalaryFromNetto = reqNetSalary => {
     if (netSalary == 20000) {
       let foo;
     }
-    return { ay, gross, sgkIsci, issizlik, damgaVerg, netSalary, kgvm, gvm };
+    return {
+      ay,
+      gross,
+      sgkIsci,
+      issizlik,
+      damgaVerg,
+      netSalary,
+      kgvm,
+      gvm,
+      gv
+    };
   };
 
   const getTaxCalculated = (previousTotalTax, gvm) => {

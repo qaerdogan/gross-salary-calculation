@@ -1,0 +1,29 @@
+.Main {
+  text-align: center;
+}
+.form-salary {
+  margin-top: 10px;
+  display: block;
+  align-content: center;
+}
+
+.form-salary form {
+  text-align: center;
+}
+
+.form-salary input {
+  padding: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.form-salary button {
+  color: blue;
+  padding: 10px;
+}
+
+.form-salary span {
+  display: block;
+  color: blue;
+  padding: 10px;
+  margin-left: 10px;
+}

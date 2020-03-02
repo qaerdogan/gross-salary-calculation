@@ -38,14 +38,13 @@ const ResultGraphLine = props => {
   };
   return (
     <>
-      <p>Graph Buraya {props.lineData}</p>
       <Line
         data={data}
         width={100}
         height={50}
         options={{
           maintainAspectRatio: false,
-          title: { display: true, text: "Deneme", fontSize: 25 },
+          title: { display: true, text: "Month - Gross Salary", fontSize: 25 },
           legend: { display: true, position: "right" }
         }}
       ></Line>
