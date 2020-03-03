@@ -51,7 +51,7 @@ const CalculateGrossSalaryFromNetto = reqNetSalary => {
     {
       taxLevel: 4,
       taxStart: 600000,
-      taxEnd: 1000000,
+      taxEnd: 10000000,
       rate: 0.4,
       previousRate: 0.35
     }
@@ -132,8 +132,12 @@ const CalculateGrossSalaryFromNetto = reqNetSalary => {
     }
 
     grossSalary = netSalary * 2;
-    const predictNetSalary = netSalaryCalculate(grossSalary, PreviousKgvm)
+
+    var predictNetSalary = netSalaryCalculate(grossSalary, PreviousKgvm)
       .netSalary;
+    predictNetSalary =
+      Math.round((predictNetSalary + Number.EPSILON) * 100) / 100;
+
     if (predictNetSalary > netSalaries[0]) {
       if (counter > 1) {
         netSalaryPredictInterval.max = netSalaries[netSalaries.length - 1];
@@ -170,7 +174,7 @@ const CalculateGrossSalaryFromNetto = reqNetSalary => {
     let nettoResult = netSalaryCalculate(brutto, kgvm, item);
     sheetnew.push(Object.assign({}, nettoResult));
   });
-
+  console.log(sheetnew);
   return sheetnew;
 };
 module.exports = {

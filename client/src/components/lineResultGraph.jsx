@@ -1,5 +1,5 @@
 import React from "react";
-import { Bar, Line, Pie } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 const months = [
   "January",
   "February",
@@ -22,7 +22,7 @@ const ResultGraphLine = props => {
     datasets: [
       {
         label: "Salary",
-        backgroundColor: "rgb(255, 99, 132)",
+        //backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(255, 99, 132)",
         data: props.lineData,
         borderWidth: 0,
@@ -41,8 +41,8 @@ const ResultGraphLine = props => {
     <>
       <Line
         data={data}
-        width="300"
-        height="100"
+        width={300}
+        height={100}
         options={{
           maintainAspectRatio: false,
           title: { display: true, text: "Month - Gross Salary", fontSize: 25 },

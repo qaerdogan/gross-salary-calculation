@@ -34,48 +34,57 @@ const App2 = () => {
     e.preventDefault();
     const netSalary = e.target.elements.netSalary.value;
     //var pointNum = parseFloat(netSalary);
-
+    setErrorMsg("");
     if (isNaN(netSalary)) {
       console.log("Value Must be Numeric");
       setErrorMsg("Value Must be Numeric");
       return;
-    } else {
-      setErrorMsg("");
     }
+    var urlBaseAddress = "/payroll";
 
-    axios.get(`/payroll/${netSalary}`).then(res => {
-      const resultPayroll = res.data.payroll;
-      //Make ready data for graps(line,pie) and table component.
-      const _lineData = [];
-      const _pieData = [];
-      resultPayroll.map(p => {
-        _lineData.push(Object.assign({}, p));
-        _pieData.push(Object.assign({}, p));
+    //pass api base address to docker
+    if (process.env.API_BASE_ADDRESS)
+      urlBaseAddress = process.env.API_BASE_ADDRESS;
+    console.log(urlBaseAddress);
+    axios
+      .get(`${urlBaseAddress}/${netSalary}`)
+      .then(res => {
+        const resultPayroll = res.data.payroll;
+        //Make ready data for graps(line,pie) and table component.
+        const _lineData = [];
+        const _pieData = [];
+        resultPayroll.map(p => {
+          _lineData.push(Object.assign({}, p));
+          _pieData.push(Object.assign({}, p));
+        });
+
+        resultPayroll.map(item => {
+          item.gross = roundHelper(item.gross);
+          item.sgkIsci = roundHelper(item.sgkIsci);
+          item.issizlik = roundHelper(item.issizlik);
+          item.damgaVerg = roundHelper(item.damgaVerg);
+          item.netSalary = roundHelper(item.netSalary);
+          item.kgvm = roundHelper(item.kgvm);
+          item.gvm = roundHelper(item.gvm);
+          item.gv = roundHelper(item.gv);
+        });
+        calculateSalary(resultPayroll);
+
+        makeLineData(_lineData.map(item => item.gross));
+
+        const totalTax = _pieData.map(item => item.gv).reduce((x, y) => x + y);
+        const totalNetSalary = _pieData
+          .map(item => item.netSalary)
+          .reduce((x, y) => x + y);
+
+        makePieData([totalNetSalary, totalTax]);
+
+        //console.log(resultPayroll);
+      })
+      .catch(error => {
+        console.log(error);
+        setErrorMsg("Please UP Node Server");
       });
-
-      resultPayroll.map(item => {
-        item.gross = roundHelper(item.gross);
-        item.sgkIsci = roundHelper(item.sgkIsci);
-        item.issizlik = roundHelper(item.issizlik);
-        item.damgaVerg = roundHelper(item.damgaVerg);
-        item.netSalary = roundHelper(item.netSalary);
-        item.kgvm = roundHelper(item.kgvm);
-        item.gvm = roundHelper(item.gvm);
-        item.gv = roundHelper(item.gv);
-      });
-      calculateSalary(resultPayroll);
-
-      makeLineData(_lineData.map(item => item.gross));
-
-      const totalTax = _pieData.map(item => item.gv).reduce((x, y) => x + y);
-      const totalNetSalary = _pieData
-        .map(item => item.netSalary)
-        .reduce((x, y) => x + y);
-
-      makePieData([totalNetSalary, totalTax]);
-
-      //console.log(resultPayroll);
-    });
   };
 
   return (

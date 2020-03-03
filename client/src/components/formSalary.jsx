@@ -3,7 +3,7 @@ import React from "react";
 const SalaryForm = props => {
   const ErrorMessage = props.ValidationSummary;
   var alertMsg;
-  if (ErrorMessage != "") {
+  if (ErrorMessage !== "") {
     console.log("alert oluştu");
     alertMsg = (
       <span className="alert alert-primary">{props.ValidationSummary}</span>

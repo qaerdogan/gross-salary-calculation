@@ -1,5 +1,4 @@
 import React from "react";
-import FormSalary from "./formSalary";
 
 const Navbar = () => {
   return (

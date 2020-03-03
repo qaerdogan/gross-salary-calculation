@@ -1,5 +1,5 @@
 import React from "react";
-import { Bar, Line, Pie } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 
 const ResultGraphPie = props => {
   const data = {
@@ -7,7 +7,7 @@ const ResultGraphPie = props => {
     datasets: [
       {
         label: "Net Salary / Tax",
-        backgroundColor: "rgb(255, 99, 132)",
+        //backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(255, 99, 132)",
         data: props.pieData,
         borderWidth: 0,
@@ -26,8 +26,8 @@ const ResultGraphPie = props => {
     <>
       <Pie
         data={data}
-        width="50"
-        height="50"
+        width={50}
+        height={50}
         options={{
           maintainAspectRatio: false,
           title: { display: true, text: "Net Salary / Tax", fontSize: 25 },
